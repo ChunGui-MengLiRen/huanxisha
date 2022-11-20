@@ -1,9 +1,5 @@
-<script setup>
-import Layout from "@/layout/layout.vue";
-</script>
-
 <template>
   <n-message-provider>
-    <Layout />
+    <RouterView />
   </n-message-provider>
 </template>
