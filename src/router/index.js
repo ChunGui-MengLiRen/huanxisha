@@ -19,6 +19,15 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/404",
+    component: () => import("../views/notPage/index.vue"),
+    name: "notPage404",
+  },
+  {
+    path: "/:catchAll(.*)", // 不识别的path自动匹配404
+    redirect: "/404",
+  },
 ];
 
 const router = createRouter({

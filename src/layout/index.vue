@@ -1,38 +1,58 @@
 <template>
-  <n-layout has-sider content-style="height:100vh">
-    <n-layout-sider collapse-mode="width" :collapsed-width="100" :width="240" show-trigger="arrow-circle"
-      content-style="padding: 24px;" bordered>
-      <n-menu :options="menuOptions" @update:value="handleUpdateValue" />
-    </n-layout-sider>
-    <n-layout>
-      <!-- <n-layout-header>header</n-layout-header> -->
-      <n-layout-content>
+  <n-layout content-style="height:100vh">
+    <!-- <n-layout-header class="container">
+      <div class="header">
+        <span>工具</span>
+        <span>
+          <n-space>
+            <WindowMinimizeRegular style="width:32px;height:32px" />
+            <WindowMaximizeRegular style="width:32px;height:32px" />
+            <WindowCloseRegular style="width:32px;height:32px" />
+          </n-space>
+        </span>
+      </div>
+    </n-layout-header> -->
+    <n-layout has-sider content-style="height:100vh">
+      <n-layout-sider collapse-mode="width" :collapsed-width="100" :width="240" show-trigger="arrow-circle"
+        content-style="padding: 24px;" bordered>
+        <n-menu :options="menuOptions" :value="currentMenu" @update:value="handleUpdateValue" />
+      </n-layout-sider>
+      <n-layout-content content-style="height:100%">
         <RouterView />
       </n-layout-content>
-      <!-- <n-layout-footer>footer</n-layout-footer> -->
     </n-layout>
   </n-layout>
+
 </template>
 
 <script setup>
 import { h, ref } from "vue";
-import { NButton, NAvatar, NIcon, useMessage } from "naive-ui";
-import { RouterLink } from "vue-router";
+import { NIcon, useMessage } from "naive-ui";
+import { RouterLink, useRoute } from "vue-router";
 import {
   BookOutline as BookIcon,
   GridOutline as ListIcon,
-  PersonOutline as PersonIcon,
-  WineOutline as WineIcon,
-  HomeOutline as HomeIcon
+  CloseOutline,
 } from "@vicons/ionicons5";
+
+import {
+  WindowMinimizeRegular,
+  WindowMaximizeRegular,
+  WindowCloseRegular
+} from "@vicons/fa";
+
+const $route = useRoute()
+
+
+// 当前菜单
+let currentMenu = ref('todo')
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
-const message = useMessage()
 
-
+// 菜单配置
 const menuOptions = ref([
   {
     label: () => h(
@@ -44,18 +64,9 @@ const menuOptions = ref([
       },
       { default: () => "代办" }
     ),
-    key: "todo",
+    key: "/todo",
     icon: renderIcon(ListIcon),
   },
-  // {
-  //   key: "divider-1",
-  //   type: "divider",
-  //   props: {
-  //     style: {
-  //       marginLeft: "32px"
-  //     }
-  //   }
-  // },
   {
     label: () => h(
       RouterLink,
@@ -66,23 +77,43 @@ const menuOptions = ref([
       },
       { default: () => "账本" }
     ),
-    key: "dance-dance-dance",
+    key: "/accountBook",
     icon: renderIcon(BookIcon),
   }
 ])
 
+
 const handleUpdateValue = (key, item) => {
-  message.info("[onUpdate:value]: " + JSON.stringify(key));
-  message.info("[onUpdate:value]: " + JSON.stringify(item));
+  currentMenu.value = key
 }
+
+// 页面刷新设置默认菜单选中
+const setDefaultMenu = () => {
+  currentMenu.value = $route.path
+}
+
+setDefaultMenu()
+
 </script>
 
 <style lang="less" scoped>
-.n-layout-header,
-.n-layout-footer {
-  background: rgba(128, 128, 128, 0.2);
-  padding: 24px;
+.container {
+  -webkit-app-region: drag;
+
+  .header {
+    padding-left: 12px;
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
+
+// .n-layout-header,
+// .n-layout-footer {
+//   background: rgba(128, 128, 128, 0.2);
+//   padding: 24px;
+// }
 
 // .n-layout-sider {
 //   background: rgba(128, 128, 128, 0.3);
