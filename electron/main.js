@@ -1,7 +1,7 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, screen } = require("electron");
 const path = require("path");
 const {
   exportTodoList,
@@ -16,10 +16,14 @@ const {
 app.disableHardwareAcceleration();
 
 const createWindow = () => {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.size;
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1600,
-    height: 1200,
+    width: parseInt((width / 1920) * 1000),
+    height: parseInt((height / 1080) * 800),
+    // minWidth: 800,
+    // minHeight: 600,
     // frame: false, // 无边框窗口
     autoHideMenuBar: true, // 自动隐藏菜单栏
     webPreferences: {
