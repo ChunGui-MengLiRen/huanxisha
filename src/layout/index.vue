@@ -32,17 +32,9 @@ import { RouterLink, useRoute } from "vue-router";
 import {
   BookOutline as BookIcon,
   GridOutline as ListIcon,
-  CloseOutline,
 } from "@vicons/ionicons5";
 
-import {
-  WindowMinimizeRegular,
-  WindowMaximizeRegular,
-  WindowCloseRegular
-} from "@vicons/fa";
-
 const $route = useRoute()
-
 
 // 当前菜单
 let currentMenu = ref('todo')
@@ -50,7 +42,6 @@ let currentMenu = ref('todo')
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
-
 
 // 菜单配置
 const menuOptions = ref([
@@ -68,17 +59,35 @@ const menuOptions = ref([
     icon: renderIcon(ListIcon),
   },
   {
-    label: () => h(
-      RouterLink,
-      {
-        to: {
-          path: "/accountBook",
-        }
-      },
-      { default: () => "账本" }
-    ),
-    key: "/accountBook",
+    label: "账本",
+    key: "/accountBookIndex",
     icon: renderIcon(BookIcon),
+    children: [
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/accountBook",
+            }
+          },
+          { default: () => "记录" }
+        ),
+        key: "/accountBook",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/accountBookChart",
+            }
+          },
+          { default: () => "统计" }
+        ),
+        key: "/accountBookChart",
+      },
+    ]
   }
 ])
 

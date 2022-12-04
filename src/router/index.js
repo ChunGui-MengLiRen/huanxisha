@@ -14,8 +14,13 @@ const routes = [
       },
       {
         path: "accountBook",
-        component: () => import("../views/accountBook/index.vue"),
+        component: () => import("../views/accountBook/list/index.vue"),
         name: "accountBook",
+      },
+      {
+        path: "accountBookChart",
+        component: () => import("../views/accountBook/chart/index.vue"),
+        name: "accountBookChart",
       },
     ],
   },
