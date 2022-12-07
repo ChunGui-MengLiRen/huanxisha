@@ -305,7 +305,7 @@ const exportDoneFile = async () => {
 .todo {
     position: relative;
     height: 100%;
-    background-color: #f0f0f0;
+    // background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
 
@@ -346,7 +346,7 @@ const exportDoneFile = async () => {
         flex-shrink: 0;
         width: 100%;
         height: 66px;
-        background-color: #f0f0f0;
+        // background-color: #f8f8f8;
         display: flex;
         align-items: center;
         position: absolute;

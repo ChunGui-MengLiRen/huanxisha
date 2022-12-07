@@ -99,6 +99,7 @@ export const useRecord = defineStore("Record", {
             };
           });
         }
+        console.log(res);
         return res;
       };
     },
@@ -118,25 +119,42 @@ export const useRecord = defineStore("Record", {
           ...record.data,
         ];
       } else {
-        this.recordList = [
-          {
+        const index = this.recordList.findIndex((item) =>
+          dayjs(newRecord.datetime).isAfter(item.datetime, "day")
+        );
+        console.log(index);
+        if (index > -1) {
+          this.recordList.splice(index, 0, {
             datetime: newRecord.datetime,
             data: [
               {
                 ...newRecord.data,
               },
             ],
-          },
-          ...this.recordList,
-        ];
+          });
+        } else {
+          this.recordList = [
+            ...this.recordList,
+            {
+              datetime: newRecord.datetime,
+              data: [
+                {
+                  ...newRecord.data,
+                },
+              ],
+            },
+          ];
+        }
       }
       localStorage.setItem("recordList", JSON.stringify(this.recordList));
     },
     update(newRecord, { dateIndex, itemIndex }) {
       console.log(newRecord);
-      this.recordList[dateIndex].data[itemIndex] = {
+      console.log(dateIndex);
+      console.log(itemIndex);
+      this.recordList[dateIndex].data.splice(itemIndex, 1, {
         ...newRecord.data,
-      };
+      });
       localStorage.setItem("recordList", JSON.stringify(this.recordList));
     },
     del({ dateIndex, itemIndex }) {

@@ -1,7 +1,7 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain, screen } = require("electron");
+const { app, BrowserWindow, ipcMain, screen, Menu, Tray } = require("electron");
 const path = require("path");
 const {
   exportTodoList,
@@ -22,6 +22,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: parseInt((width / 1920) * 1000),
     height: parseInt((height / 1080) * 800),
+    icon: path.join(__dirname, "../public/favicon.ico"),
     // minWidth: 800,
     // minHeight: 600,
     // frame: false, // 无边框窗口
@@ -40,11 +41,16 @@ const createWindow = () => {
   }
 
   // 加载 index.html
-  //   mainWindow.loadFile("index.html");
+  // mainWindow.loadFile("index.html");
 
   // 打开开发工具
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
+
+  return mainWindow;
 };
+
+let tray = null;
+let trayClose = false;
 
 // 这段程序将会在 Electron 结束初始化
 // 和创建浏览器窗口的时候调用
@@ -54,7 +60,44 @@ app.whenReady().then(() => {
   ipcMain.handle("export-done-file-list", exportDoneList);
   ipcMain.handle("again-export-todo-file-list", againExportTodoList);
   ipcMain.handle("again-export-done-file-list", againExportDoneList);
-  createWindow();
+
+  const win = createWindow();
+  // 任务栏隐藏
+  win.setSkipTaskbar(true);
+  // 窗口关闭事件
+  win.on("close", (event) => {
+    if (!trayClose) {
+      // 取消默认行为，阻止窗口关闭
+      event.preventDefault();
+      win.hide();
+      // 没有托盘，则创建托盘
+      if (!tray) {
+        // 设置右键菜单列表
+        const trayContextMenu = Menu.buildFromTemplate([
+          {
+            label: "打开",
+            click() {
+              win.show();
+            },
+          },
+          {
+            label: "退出",
+            click() {
+              trayClose = true;
+              app.quit();
+            },
+          },
+        ]);
+        tray = new Tray(path.join(__dirname, "../public/favicon.ico"));
+        tray.setToolTip("我的工具");
+        tray.setContextMenu(trayContextMenu);
+        tray.on("click", () => {
+          win.isVisible() ? win.hide() : win.show();
+        });
+      }
+    }
+  });
+
   app.on("activate", () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

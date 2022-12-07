@@ -1,8 +1,8 @@
 {
-  "name": "todo",
+  "name": "mytools",
   "private": true,
   "version": "0.0.1",
-  "description": "my todo",
+  "description": "mytools",
   "main": "electron/main.js",
   "author": "yangliuyiyi",
   "license": "MIT",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "dayjs": "^1.11.6",
+    "echarts": "^5.4.0",
     "naive-ui": "^2.33.5",
     "node-xlsx": "^0.21.0",
     "pinia": "^2.0.26",
@@ -30,13 +31,13 @@
     "vite": "^3.2.3"
   },
   "build": {
-    "productName": "todo",
-    "appId": "top.yangliuyi.todo",
+    "productName": "mytools",
+    "appId": "top.yangliuyi.mytools",
     "copyright": "Copyright © 2022 YangLiuYiYi",
     "protocols": {
-      "name": "todo",
+      "name": "mytools",
       "schemes": [
-        "todo"
+        "mytools"
       ]
     },
     "directories": {
@@ -45,7 +46,8 @@
     },
     "files": [
       "dist/**/*",
-      "electron/**/*"
+      "electron/**/*",
+      "public/**/*"
     ],
     "asar": {
       "smartUnpack": false
@@ -72,7 +74,7 @@
       "installerHeaderIcon": "public/logo.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "todo"
+      "shortcutName": "mytools"
     },
     "dmg": {
       "window": {
@@ -83,7 +85,7 @@
         {
           "x": 106,
           "y": 252,
-          "name": "todo"
+          "name": "mytools"
         },
         {
           "x": 490,
@@ -92,7 +94,7 @@
           "path": "/Applications"
         }
       ],
-      "title": "todo-v${version}"
+      "title": "mytools-v${version}"
     }
   }
 }

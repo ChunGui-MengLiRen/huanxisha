@@ -194,11 +194,15 @@ import { useRecord } from "@/store/index.js";
 const message = useMessage()
 const recordStore = useRecord();
 
+
 const formValue = ref({
-    date: dayjs().format("YYYY-MM"),
+    date: null,
     type: null,
     name: null
 });
+
+console.log(recordStore.searchReset(formValue));
+
 
 const treeOptions = ref([
     {
@@ -430,7 +434,7 @@ const handleSelect = (key) => {
 const reset = () => {
     searchOptions.value = []
     formValue.value = {
-        date: dayjs().format("YYYY-MM"),
+        date: null,
         type: null,
         name: null
     };
