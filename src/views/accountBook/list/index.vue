@@ -90,13 +90,6 @@
     footer: 'soft',
 }">
             <n-form ref="formAddRef" :label-width="80" :model="addForm" :rules="rules">
-                <n-form-item label="类型" path="datetime">
-                    <n-date-picker v-model:formatted-value="addForm.datetime" value-format="yyyy-MM-dd"
-                        format="yyyy-MM-dd" type="date" clearable style="width:100%" />
-                </n-form-item>
-                <n-form-item label="类型" path="data.name">
-                    <n-select v-model:value="addForm.data.name" placeholder="请选择类型" :options="options" />
-                </n-form-item>
                 <n-form-item label="类别" path="data.type">
                     <n-radio-group v-model:value="addForm.data.type" @update:value="onChange">
                         <n-space>
@@ -108,6 +101,13 @@
                             </n-radio>
                         </n-space>
                     </n-radio-group>
+                </n-form-item>
+                <n-form-item label="类型" path="data.name">
+                    <n-select v-model:value="addForm.data.name" placeholder="请选择类型" :options="options" />
+                </n-form-item>
+                <n-form-item label="时间" path="datetime">
+                    <n-date-picker v-model:formatted-value="addForm.datetime" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+                        type="date" clearable style="width:100%" />
                 </n-form-item>
                 <n-form-item label="金额">
                     <n-input-number v-model:value="addForm.data.money" clearable :precision="2" :step="0.01"
@@ -141,13 +141,6 @@
     footer: 'soft',
 }">
             <n-form ref="formEditRef" :label-width="80" :model="editForm" :rules="rules">
-                <n-form-item label="类型" path="datetime">
-                    <n-date-picker v-model:formatted-value="editForm.datetime" value-format="yyyy-MM-dd"
-                        format="yyyy-MM-dd" type="date" clearable style="width:100%" disabled />
-                </n-form-item>
-                <n-form-item label="类型" path="data.name">
-                    <n-select v-model:value="editForm.data.name" placeholder="请选择类型" :options="options" />
-                </n-form-item>
                 <n-form-item label="类别" path="data.type">
                     <n-radio-group v-model:value="editForm.data.type" @update:value="onChange">
                         <n-space>
@@ -159,6 +152,13 @@
                             </n-radio>
                         </n-space>
                     </n-radio-group>
+                </n-form-item>
+                <n-form-item label="类型" path="data.name">
+                    <n-select v-model:value="editForm.data.name" placeholder="请选择类型" :options="options" />
+                </n-form-item>
+                <n-form-item label="时间" path="datetime">
+                    <n-date-picker v-model:formatted-value="editForm.datetime" value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+                        type="date" clearable style="width:100%" disabled />
                 </n-form-item>
                 <n-form-item label="金额">
                     <n-input-number v-model:value="editForm.data.money" clearable :precision="2" :step="0.01"
@@ -201,7 +201,6 @@ const formValue = ref({
     name: null
 });
 
-console.log(recordStore.searchReset(formValue));
 
 
 const treeOptions = ref([
@@ -325,7 +324,9 @@ const treeOptions = ref([
     }
 ])
 
-const options = treeOptions.value[0].children
+const options = ref([
+    ...treeOptions.value[1].children
+])
 
 const searchOptions = ref([])
 
